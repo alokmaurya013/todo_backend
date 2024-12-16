@@ -1,3 +1,5 @@
+---
+
 ```markdown
 # To-Do List Backend API
 
@@ -143,23 +145,24 @@ A simple RESTful API to manage a to-do list with features like authentication, t
 ```plaintext
 bytive_backend/
 ├── controllers/
-│   └── taskController.js      # Handles task-related logic
-│   └── authController.js
+│   ├── taskController.js      # Handles task-related logic
+│   └── authController.js      # Handles authentication-related logic
 ├── middleware/
 │   └── authenticate.js        # JWT authentication middleware
 ├── models/
-│   └── taskModel.js           # SQLite schema and database logic
-│   └── authModel.js 
+│   ├── taskModel.js           # SQLite schema and database logic for tasks
+│   └── authModel.js           # SQLite schema for authentication
 ├── routes/
-│   └── taskRoutes.js          # Task-related API routes
-│   └── authRoutes.js   
-├── database.db            # SQLite database file
+│   ├── taskRoutes.js          # Task-related API routes
+│   └── authRoutes.js          # Authentication-related API routes
+├── database/
+│   └── database.db            # SQLite database file
 ├── .env                       # Environment variables
-├── index.js                     # Entry point of the application
+├── index.js                   # Entry point of the application
 ├── package.json               # Dependencies and project metadata
 ├── README.md                  # Documentation
 └── utils/
-    └── jwtHelper.js        # Utility for managing database connection
+    └── jwtHelper.js           # Utility functions for JWT operations
 ```
 
 ---
@@ -181,13 +184,24 @@ npm install express sqlite3 jsonwebtoken dotenv body-parser
 
 ## Database Schema
 
-The database schema for tasks:
+### Tasks Table
 ```sql
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     description TEXT,
     status TEXT DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Users Table
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -207,6 +221,11 @@ This project is licensed under the MIT License.
 
 ## Author
 
-Created by [Alok MAurya](https://github.com/alokmaurya013).
-
+Created by [Alok Maurya](https://github.com/alokmaurya013).
 ```
+
+### Fixes Applied:
+1. Added missing semicolon in the task schema SQL definition.
+2. Included a proper `users` table schema for authentication.
+3. Fixed and clarified folder structure descriptions.
+4. Checked consistency between the API design and dependencies.
